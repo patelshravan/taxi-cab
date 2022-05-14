@@ -70,10 +70,10 @@ function useStyles() {
 const AllRides = ({ navigation }) => {
   const styles = useStyles();
   const [data, setData] = useState([]);
-  
+
   const [fromSearchQuery, setFromSearchQuery] = useState("");
   const [toSearchQuery, setToSearchQuery] = useState("");
-  
+
   const [reload, setReload] = useState(1);
   const [authToken, setAuthToken] = useState("");
 
@@ -81,7 +81,7 @@ const AllRides = ({ navigation }) => {
     AsyncStorage.getItem("token").then((value) => {
       if (value) {
         setAuthToken(value);
-        fetch("http://192.168.1.16:5000/api/v1/ride/list", {
+        fetch("http://192.168.43.169:5000/api/v1/ride/list", {
           method: "GET",
           cache: "no-cache",
           headers: {
@@ -176,9 +176,11 @@ const AllRides = ({ navigation }) => {
   };
 
   const filterRides = (ride) => {
-    return ride.from.toLowerCase().includes(fromSearchQuery.toLowerCase())
-    && ride.to.toLowerCase().includes(toSearchQuery.toLowerCase())
-  }
+    return (
+      ride.from.toLowerCase().includes(fromSearchQuery.toLowerCase()) &&
+      ride.to.toLowerCase().includes(toSearchQuery.toLowerCase())
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -192,26 +194,25 @@ const AllRides = ({ navigation }) => {
         />
       </View>
       <View style={styles.footer}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row'}}>
-          <FontAwesome5 name="search-location" size={24} color="black" />
-          <TextInput
-            style={{ marginLeft: 10, borderBottomWidth: 1}}
-            placeholder="From Location"
-            onChangeText={(query) => setFromSearchQuery(query)}
-          />
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row" }}>
+            <FontAwesome5 name="search-location" size={24} color="black" />
+            <TextInput
+              style={{ marginLeft: 10, borderBottomWidth: 1 }}
+              placeholder="From Location"
+              onChangeText={(query) => setFromSearchQuery(query)}
+            />
           </View>
-          <View style={{flexDirection: 'row', marginRight: 10}}>
-          <FontAwesome5 name="search-location" size={24} color="black" />
-          <TextInput
-            style={{ marginLeft: 10, borderBottomWidth: 1}}
-            placeholder="To Location"
-            onChangeText={(query) => setToSearchQuery(query)}
-          />
+          <View style={{ flexDirection: "row", marginRight: 10 }}>
+            <FontAwesome5 name="search-location" size={24} color="black" />
+            <TextInput
+              style={{ marginLeft: 10, borderBottomWidth: 1 }}
+              placeholder="To Location"
+              onChangeText={(query) => setToSearchQuery(query)}
+            />
           </View>
-
         </View>
-        <Text style={{alignSelf: 'center', marginTop: 30}}>
+        <Text style={{ alignSelf: "center", marginTop: 30 }}>
           ----------------------------------------------------------------------------------
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>

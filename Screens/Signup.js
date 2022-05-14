@@ -14,6 +14,7 @@ import * as Animatable from "react-native-animatable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const Signup = ({ navigation }) => {
   const [data, setData] = useState({
@@ -86,34 +87,35 @@ const Signup = ({ navigation }) => {
   };
 
   const handleSignupClick = (event) => {
+    console.log(data, "data");
     event.preventDefault();
     AsyncStorage.getItem("token").then((value) => {
-      fetch("http://192.168.1.16:5000/api/v1/auth/register", {
+      axios({
+        url: "http://192.168.43.169:5000/api/v1/auth/register",
         method: "POST",
         cache: "no-cache",
         headers: {
           Authorization: `Bearer ${value}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
+          name: data.email,
           email: data.email,
           password: data.password,
           confirmPassword: data.confirmPassword,
-        }),
+          mobile: data.mobile,
+        },
       })
         .then(function (response) {
+          console.log(response, "response");
           if (response.status === 200) {
             navigation.navigate("Welcome");
           } else {
-            return response.json();
-          }
-        })
-        .then(function (resData) {
-          if (resData) {
-            Alert.alert(resData.message);
+            return response;
           }
         })
         .catch(function (error) {
+          console.log(error, "error");
           {
             console.error(error);
             Alert.alert("Something went wrong.");
@@ -247,7 +249,7 @@ const Signup = ({ navigation }) => {
           </View>
 
           {/* CONFIRM PASSWORD END */}
-  
+
           <View style={styles.button}>
             <TouchableOpacity onPress={handleSignupClick} style={styles.signUp}>
               <Text

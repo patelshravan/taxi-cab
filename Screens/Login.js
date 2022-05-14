@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
   const handleLoginClick = (event) => {
     event.preventDefault();
     AsyncStorage.getItem("token").then((value) => {
-      fetch("http://192.168.1.16:5000/api/v1/auth/login", {
+      fetch("http://192.168.43.169:5000/api/v1/auth/login", {
         method: "POST",
         cache: "no-cache",
         headers: {

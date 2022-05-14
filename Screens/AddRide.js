@@ -27,7 +27,7 @@ function tConv24(time24) {
   return ts;
 }
 
-const AddRide = ({navigation}) => {
+const AddRide = ({ navigation }) => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [pricePerSeat, setPricePerSeat] = useState("");
@@ -64,7 +64,7 @@ const AddRide = ({navigation}) => {
     event.preventDefault();
     AsyncStorage.getItem("token").then((value) => {
       setAuthToken(value);
-      fetch("http://192.168.1.16:5000/api/v1/ride/add", {
+      fetch("http://192.168.43.169:5000/api/v1/ride/add", {
         method: "POST",
         cache: "no-cache",
         headers: {
@@ -84,19 +84,20 @@ const AddRide = ({navigation}) => {
       })
         .then(function (response) {
           if (response.status === 200) {
-            Alert.alert("Ride Added Successfully.")
+            Alert.alert("Ride Added Successfully.");
             navigation.navigate("AllRides");
           } else {
             return response.json();
           }
         })
         .then(function (data) {
-          if(data){
-          Alert.alert(data.message)}
+          if (data) {
+            Alert.alert(data.message);
+          }
         })
         .catch(function (error) {
-          console.warn("SEE", error)
-            Alert.alert("Something went wrong.");
+          console.warn("SEE", error);
+          Alert.alert("Something went wrong.");
         });
     });
   };

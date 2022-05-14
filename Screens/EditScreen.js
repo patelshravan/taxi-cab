@@ -15,16 +15,15 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const EditProfileScreen = ({navigation, route}) => {
-  
-  const name = route.params.name
-  const email = route.params.email
-  const mobile = route.params.mobile
-  const city = route.params.city
+const EditProfileScreen = ({ navigation, route }) => {
+  const name = route.params.name;
+  const email = route.params.email;
+  const mobile = route.params.mobile;
+  const city = route.params.city;
 
-  const [newName, setNewName ] = useState(name)
-  const [newMobile, setNewMobile ] = useState(mobile)
-  
+  const [newName, setNewName] = useState(name);
+  const [newMobile, setNewMobile] = useState(mobile);
+
   const [image, setImage] = useState(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXk8GFwTIaLBXPZgdAcBsGqI-NaJlq9xiNYQ&usqp=CAU"
   );
@@ -33,31 +32,30 @@ const EditProfileScreen = ({navigation, route}) => {
   const onSubmitPress = () => {
     AsyncStorage.getItem("token").then((value) => {
       if (value) {
-        
-        fetch("http://192.168.1.16:5000/api/v1/user/update", {
+        fetch("http://192.168.43.169:5000/api/v1/user/update", {
           method: "POST",
           cache: "no-cache",
           headers: {
-            "Authorization": `Bearer ${value}`,
+            Authorization: `Bearer ${value}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: newName,
-            mobile: newMobile
-          })
+            mobile: newMobile,
+          }),
         })
           .then((result) => {
             return result.json();
           })
           .then((response) => {
-            navigation.navigate("Profile")
+            navigation.navigate("Profile");
           })
           .catch((error) => {
             console.error(error);
           });
       }
     });
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -116,7 +114,7 @@ const EditProfileScreen = ({navigation, route}) => {
             placeholder={name}
             placeholderTextColor="#666666"
             autoCorrect={false}
-            onChangeText={value => setNewName(value)}
+            onChangeText={(value) => setNewName(value)}
             style={[
               styles.textInput,
               {
@@ -132,7 +130,7 @@ const EditProfileScreen = ({navigation, route}) => {
             placeholderTextColor="#666666"
             keyboardType="number-pad"
             autoCorrect={false}
-            onChangeText={value => setNewMobile(value)}
+            onChangeText={(value) => setNewMobile(value)}
             style={[
               styles.textInput,
               {
